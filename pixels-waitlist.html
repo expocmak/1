@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PIXELS</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --punk-bg: #638596;
+            --punk-orange: #ff8800;
+            --punk-cyan: #00ddff;
+            --punk-black: #000;
+            --punk-white: #e8e8e0;
+            --punk-grey: #888888;
+        }
+
+        body {
+            font-family: 'Courier Prime', monospace;
+            background: var(--punk-bg);
+            color: var(--punk-black);
+            line-height: 1.5;
+            image-rendering: pixelated;
+            image-rendering: crisp-edges;
+        }
+
+        /* Pixelated cursor */
+        * {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23000"/><rect x="2" y="2" width="12" height="12" fill="%23fff"/></svg>') 8 8, auto;
+        }
+
+        a, button {
+            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"><rect width="16" height="16" fill="%23ff8800"/></svg>') 8 8, pointer;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header - Brutalist style */
+        header {
+            padding: 40px 0;
+            border-bottom: 4px solid var(--punk-black);
+        }
+
+        .logo {
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(2rem, 6vw, 4rem);
+            color: var(--punk-black);
+            text-align: center;
+            letter-spacing: 4px;
+            text-shadow: 
+                4px 4px 0 var(--punk-orange),
+                8px 8px 0 var(--punk-cyan);
+            margin-bottom: 20px;
+        }
+
+        /* Main grid layout */
+        .main-grid {
+            max-width: 600px;
+            margin: 40px auto;
+            border: 4px solid var(--punk-black);
+        }
+
+        /* Form section */
+        .form-section {
+            background: var(--punk-orange);
+            padding: 40px;
+        }
+
+        .form-title {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--punk-black);
+            line-height: 1.6;
+        }
+
+        .form-subtitle {
+            font-size: 1rem;
+            margin-bottom: 30px;
+            color: var(--punk-black);
+            font-weight: 700;
+        }
+
+        /* Follow task box */
+        .follow-box {
+            background: var(--punk-white);
+            border: 4px solid var(--punk-black);
+            padding: 20px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .follow-box::before {
+            content: '!';
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: var(--punk-orange);
+            color: var(--punk-black);
+            width: 30px;
+            height: 30px;
+            border: 4px solid var(--punk-black);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1.2rem;
+        }
+
+        .follow-content {
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .follow-content input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            border: 3px solid var(--punk-black);
+            margin-top: 2px;
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+
+        .follow-content label {
+            font-size: 1rem;
+            line-height: 1.5;
+            color: var(--punk-black);
+            font-weight: 700;
+        }
+
+        .follow-content a {
+            color: var(--punk-black);
+            text-decoration: underline;
+            font-weight: 700;
+        }
+
+        .follow-content a:hover {
+            background: var(--punk-black);
+            color: var(--punk-white);
+        }
+
+        /* Form inputs */
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.7rem;
+            margin-bottom: 10px;
+            color: var(--punk-black);
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: 4px solid var(--punk-black);
+            background: var(--punk-white);
+            font-family: 'Courier Prime', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--punk-black);
+            transition: all 0.1s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            box-shadow: inset 4px 4px 0 var(--punk-black);
+        }
+
+        .form-group input::placeholder {
+            color: var(--punk-grey);
+        }
+
+        /* Submit button */
+        .submit-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--punk-black);
+            color: var(--punk-white);
+            border: 4px solid var(--punk-black);
+            font-family: 'Press Start 2P', monospace;
+            font-size: 1rem;
+            transition: all 0.1s;
+            position: relative;
+        }
+
+        .submit-btn:not(:disabled):hover {
+            background: var(--punk-cyan);
+            color: var(--punk-black);
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0 var(--punk-black);
+        }
+
+        .submit-btn:not(:disabled):active {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .submit-btn:disabled {
+            background: var(--punk-grey);
+            color: var(--punk-white);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        /* Success message */
+        .success-msg {
+            display: none;
+            background: var(--punk-cyan);
+            border: 4px solid var(--punk-black);
+            padding: 20px;
+            margin-top: 20px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            line-height: 1.6;
+            color: var(--punk-black);
+        }
+
+        .success-msg.show {
+            display: block;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.7; }
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 40px;
+            padding: 40px 0;
+            border-top: 4px solid var(--punk-black);
+            text-align: center;
+        }
+
+        .footer-link {
+            display: inline-block;
+            padding: 15px 30px;
+            background: var(--punk-white);
+            border: 4px solid var(--punk-black);
+            color: var(--punk-black);
+            text-decoration: none;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 0.8rem;
+            transition: all 0.1s;
+            margin-bottom: 20px;
+        }
+
+        .footer-link:hover {
+            transform: translate(-4px, -4px);
+            box-shadow: 4px 4px 0 var(--punk-black);
+        }
+
+        .footer-link:active {
+            transform: translate(0, 0);
+            box-shadow: none;
+        }
+
+        .footer-text {
+            font-size: 0.9rem;
+            color: var(--punk-black);
+            margin-top: 20px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .form-section {
+                padding: 30px 20px;
+            }
+
+            .logo {
+                font-size: 2rem;
+                text-shadow: 
+                    3px 3px 0 var(--punk-orange),
+                    6px 6px 0 var(--punk-cyan);
+            }
+
+            .form-title {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-title {
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Pixel border decoration */
+        .pixel-border {
+            position: relative;
+        }
+
+        .pixel-border::before,
+        .pixel-border::after {
+            content: '';
+            position: absolute;
+            background: var(--punk-black);
+        }
+
+        .pixel-border::before {
+            top: -4px;
+            left: -4px;
+            width: 8px;
+            height: 8px;
+        }
+
+        .pixel-border::after {
+            bottom: -4px;
+            right: -4px;
+            width: 8px;
+            height: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <h1 class="logo">PIXELS</h1>
+        </header>
+
+        <!-- Main Grid -->
+        <div class="main-grid">
+            <!-- Form -->
+            <div class="form-section">
+                <h2 class="form-title">JOIN WAITLIST</h2>
+                <p class="form-subtitle">Get early access to mint</p>
+
+                <form id="waitlistForm">
+                    <!-- Follow task -->
+                    <div class="follow-box pixel-border">
+                        <div class="follow-content">
+                            <input type="checkbox" id="followCheck" name="followCheck">
+                            <label for="followCheck">
+                                FOLLOW <a href="https://x.com/Pixels_Fi" target="_blank">@PIXELS_FI</a> ON X TO CONTINUE
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Wallet input -->
+                    <div class="form-group">
+                        <label for="wallet">WALLET</label>
+                        <input 
+                            type="text" 
+                            id="wallet" 
+                            name="wallet" 
+                            placeholder="0x..." 
+                            required
+                            pattern="0x[a-fA-F0-9]{40}"
+                        >
+                    </div>
+
+                    <!-- X handle input -->
+                    <div class="form-group">
+                        <label for="twitter">X HANDLE</label>
+                        <input 
+                            type="text" 
+                            id="twitter" 
+                            name="twitter" 
+                            placeholder="@yourhandle"
+                            required
+                        >
+                    </div>
+
+                    <!-- Submit button -->
+                    <button type="submit" class="submit-btn" id="submitBtn" disabled>
+                        ENTER THE VOID
+                    </button>
+                </form>
+
+                <!-- Success message -->
+                <div class="success-msg" id="successMsg">
+                    ✓ YOU'RE IN. WATCH YOUR WALLET.
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <a href="https://x.com/Pixels_Fi" target="_blank" class="footer-link">FOLLOW ON X</a>
+            <p class="footer-text">FULLY ONCHAIN · EXCITING THINGS COMING · FEBRUARY</p>
+        </footer>
+    </div>
+
+    <script>
+        // Follow checkbox logic
+        const followCheck = document.getElementById('followCheck');
+        const submitBtn = document.getElementById('submitBtn');
+
+        followCheck.addEventListener('change', function() {
+            submitBtn.disabled = !this.checked;
+        });
+
+        // Form submission
+        document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!followCheck.checked) {
+                alert('FOLLOW @PIXELS_FI FIRST!');
+                return;
+            }
+
+            const wallet = document.getElementById('wallet').value;
+            const twitter = document.getElementById('twitter').value;
+            
+            // Disable button while submitting
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'SUBMITTING...';
+            
+            try {
+                // Send to SheetDB
+                const response = await fetch('https://sheetdb.io/api/v1/qswaw00w92por', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        data: {
+                            wallet: wallet,
+                            twitter: twitter,
+                            timestamp: new Date().toISOString(),
+                            date: new Date().toLocaleDateString('en-US')
+                        }
+                    })
+                });
+                
+                if (response.ok) {
+                    // Show success
+                    const successMsg = document.getElementById('successMsg');
+                    successMsg.classList.add('show');
+                    
+                    // Reset form
+                    document.getElementById('wallet').value = '';
+                    document.getElementById('twitter').value = '';
+                    followCheck.checked = false;
+                    
+                    setTimeout(() => {
+                        successMsg.classList.remove('show');
+                    }, 5000);
+                } else {
+                    alert('ERROR: SUBMISSION FAILED. TRY AGAIN.');
+                }
+            } catch (error) {
+                console.error('Submission error:', error);
+                alert('ERROR: SUBMISSION FAILED. TRY AGAIN.');
+            } finally {
+                // Re-enable button
+                submitBtn.textContent = 'ENTER THE VOID';
+                submitBtn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>
