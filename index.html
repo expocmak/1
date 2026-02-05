@@ -354,6 +354,16 @@
                         </div>
                     </div>
 
+                    <!-- Engage task -->
+                    <div class="follow-box pixel-border">
+                        <div class="follow-content">
+                            <input type="checkbox" id="engageCheck" name="engageCheck">
+                            <label for="engageCheck">
+                                ENGAGE WITH <a href="https://x.com/Pixels_Fi/status/2019153041685876952" target="_blank">THIS</a> TWEET
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Wallet input -->
                     <div class="form-group">
                         <label for="wallet">WALLET</label>
@@ -400,20 +410,24 @@
     </div>
 
     <script>
-        // Follow checkbox logic
+        // Follow and engage checkbox logic
         const followCheck = document.getElementById('followCheck');
+        const engageCheck = document.getElementById('engageCheck');
         const submitBtn = document.getElementById('submitBtn');
 
-        followCheck.addEventListener('change', function() {
-            submitBtn.disabled = !this.checked;
-        });
+        function updateButtonState() {
+            submitBtn.disabled = !(followCheck.checked && engageCheck.checked);
+        }
+
+        followCheck.addEventListener('change', updateButtonState);
+        engageCheck.addEventListener('change', updateButtonState);
 
         // Form submission
         document.getElementById('waitlistForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            if (!followCheck.checked) {
-                alert('FOLLOW @PIXELS_FI FIRST!');
+            if (!followCheck.checked || !engageCheck.checked) {
+                alert('COMPLETE ALL TASKS FIRST!');
                 return;
             }
 
@@ -450,6 +464,7 @@
                     document.getElementById('wallet').value = '';
                     document.getElementById('twitter').value = '';
                     followCheck.checked = false;
+                    engageCheck.checked = false;
                     
                     setTimeout(() => {
                         successMsg.classList.remove('show');
@@ -463,7 +478,7 @@
             } finally {
                 // Re-enable button
                 submitBtn.textContent = 'ENTER THE VOID';
-                submitBtn.disabled = false;
+                updateButtonState();
             }
         });
     </script>
